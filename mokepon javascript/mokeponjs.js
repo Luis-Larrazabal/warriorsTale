@@ -18,7 +18,6 @@ function beginGame() {
     let bttnsAttack = document.getElementById("attack_buttons")
     bttnsAttack.style.display = "none"
 
-
     let resultadoCombate = document.getElementById("resultado-combate")
     resultadoCombate.style.display = "none"
 
@@ -128,6 +127,10 @@ function SeleccCharEnemigo() {
     let sectionLives = document.getElementById("lives")
     sectionLives.style.display = "block"
 
+    let restartBttn = document.getElementById("boton-reiniciar")
+    restartBttn.style.display = "none"
+
+
     let charEnemigo = aleatorio(1,3)
     let characterEnemigo = document.getElementById("nombre_mascota_enemigo")
 
@@ -207,6 +210,9 @@ function crearMensajeFinal(resultadoFinal){
     
     let botonTierra = document.getElementById("earth_button")
     botonTierra.disabled = true
+
+    let restartBttn = document.getElementById("boton-reiniciar")
+    restartBttn.style.display = "flex"
     
 }
 
