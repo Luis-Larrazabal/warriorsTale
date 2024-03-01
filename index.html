@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>
+            WARRIORS TALE! 🛡️⚔️🏹 || The Game
+        </title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IM+Fell+Double+Pica:ital@0;1&display=swap" rel="stylesheet">
+        <script src="./mokepon javascript/mokeponjs.js"></script>
+        <link rel="stylesheet" href="../mokepon/mokepon css.css">
+    </head>
+    
+    <body>
+        
+        <h1 id="header1">WARRIORS TALE</h1>
+        <h2 id = "header2">Choose your Warrior!</h2>
+        
+        <section id = "char_selection">
+            
+            <div class = char>
+                <p id="char_name"><u><i>JUANA</i></u></p>
+                <img id = "img-archer" src="../Resources/archer.png" width="296" height="400">
+            </div>
+            <div class = char>
+                <p id="char_name"><i><u>ARTHUR</u></i></p>
+                <img id = "img-knight" src="../Resources/knight.png" width="296" height="410">
+            </div>
+            <div class = char>
+                <p id="char_name"><i><u>ROSE</u></i></p>
+                <img id = "img-spear" src="../Resources/spear.png" width="296" height="420">
+            </div>
+        
+        </section>
+
+            <div id ="buttons">
+                <button id = "btn-archer">JUANA</button>
+                <button id = "btn-knight">ARTHUR</button>
+                <button id = "btn-spear">ROSE</button>
+            </div>
+
+
+        <section id = "attack_selection">
+
+            <div class="choose-attack">
+                <h2 id = "chose-attack">CHOOSE YOUR ATTACK! </h2>
+                <p><strong><u>SWORD</u></strong>🗡️ defeats <strong><u>BOW</u></strong>🏹 </p>
+                <p><strong><u>BOW</u></strong>🏹 defeats <strong><u>SPEAR</u></strong>🦯 </p>
+                <p><strong><u>SPEAR</u></strong>🦯 defeats <strong><u>SWORD</u></strong>🗡️ </p>
+
+            </div>
+            
+        </section>
+
+        <section id="attack_buttons">
+
+            <button class = "atack_bttns" id ="fire_button">BOW 🏹</button>
+            <button class = "atack_bttns" id="water_button">SWORD 🗡️</button>
+            <button class = "atack_bttns" id="earth_button">SPEAR 🦯</button>
+
+        </section>
+
+        <section id= "resultado-combate">
+            <p id="resultado"></p>
+            <div id="boton-reiniciar">
+                <button id="restart_button">Reiniciar</button>
+            </div>
+        </section>
+
+        
+
+        <div id="lives">
+
+            <div id="ataque-jugador"></div>
+            <div id="ataque-enemigo"></div>
+            
+            <p>Your warrior <u><span id="nombre_mascota_jugador"></span></u> has <span id="vidas_jugador">3</span> remaining lives</p>
+            <p>Opponent warrior <u><span id="nombre_mascota_enemigo"></span></u> has <span id="vidas_enemigo">3</span> remianing lives</p>
+        </div>
+
+        
+
+
+    </body>
+</html>
