@@ -36,10 +36,28 @@ const sectAtaqueEnemigo = document.getElementById("ataque-enemigo")
 const sectMensajeFinal = document.getElementById("resultado")
 
                        // lets generales
+
+let warriors = []
 let ataqueJugador 
 let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
+
+class Warrior {
+    constructor(name, image, lifes) {
+        this.name = name
+        this.image = image
+        this.lifes = lifes
+    }
+}
+
+let Juana = new Warrior ('img-archer', './Resources/archer.png', 3)
+let Arthur = new Warrior ('img-knight', './Resources/knight.png', 3)
+let Rose = new Warrior ('img-spear', './Resources/spear.png', 3)
+
+warriors.push(Juana, Arthur, Rose)
+
+console.log(warriors)
 
 window.addEventListener("load", beginGame)
 
