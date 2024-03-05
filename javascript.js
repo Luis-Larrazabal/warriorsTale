@@ -1,4 +1,41 @@
 
+                // BeginGame 
+const sectionSeleccAtaque = document.getElementById("attack_selection")
+const sectionLives = document.getElementById("lives")
+const bttnsAttack = document.getElementById("attack_buttons")
+const resultadoCombate = document.getElementById("resultado-combate")
+const botonArcher = document.getElementById("btn-archer")
+const botonKnight = document.getElementById("btn-knight")
+const botonSpear = document.getElementById("btn-spear")
+const nombreMascota = document.getElementById("nombre_mascota_jugador")
+const imgArcher = document.getElementById("img-archer")
+const imgKnight = document.getElementById("img-knight")
+const imgSpear = document.getElementById("img-spear")
+const botonFuego = document.getElementById("fire_button")
+const botonAgua = document.getElementById("water_button")
+const botonTierra = document.getElementById("earth_button")
+const botonReiniciar = document.getElementById("restart_button")
+                
+                // SeleccCharEnemigo 
+const header2 = document.getElementById("header2")
+const sectionCharButtons = document.getElementById("buttons")
+const sectionSeleccChar = document.getElementById("char_selection")
+const restartBttn = document.getElementById("boton-reiniciar")
+const characterEnemigo = document.getElementById("nombre_mascota_enemigo")
+
+                     // combate 
+const spanVidasJugador = document.getElementById("vidas_jugador")
+const spanVidasEnemigo = document.getElementById("vidas_enemigo")
+
+                   // crearMensaje 
+const sectMensaje = document.getElementById("resultado")
+const sectAtaqueJugador = document.getElementById("ataque-jugador")
+const sectAtaqueEnemigo = document.getElementById("ataque-enemigo")
+
+                    //crearMensajeFinal 
+const sectMensajeFinal = document.getElementById("resultado")
+
+                       // lets generales
 let ataqueJugador 
 let ataqueEnemigo
 let vidasJugador = 3
@@ -8,39 +45,13 @@ window.addEventListener("load", beginGame)
 
 function beginGame() {
     
-    
-    let sectionSeleccAtaque = document.getElementById("attack_selection")
     sectionSeleccAtaque.style.display = "none"
-    
-    let sectionLives = document.getElementById("lives")
     sectionLives.style.display = "none"
-
-    let bttnsAttack = document.getElementById("attack_buttons")
     bttnsAttack.style.display = "none"
-
-    let resultadoCombate = document.getElementById("resultado-combate")
     resultadoCombate.style.display = "none"
-
-    let botonArcher = document.getElementById("btn-archer")
-    let botonKnight = document.getElementById("btn-knight")
-    let botonSpear = document.getElementById("btn-spear")
-    
-    let nombreMascota = document.getElementById("nombre_mascota_jugador")
-    
-    let imgArcher = document.getElementById("img-archer")
-    let imgKnight = document.getElementById("img-knight")
-    let imgSpear = document.getElementById("img-spear")
-    
-    let botonFuego = document.getElementById("fire_button")
     botonFuego.addEventListener("click", ataqueFuego)
-    
-    let botonAgua = document.getElementById("water_button")
     botonAgua.addEventListener("click", ataqueAgua)
-    
-    let botonTierra = document.getElementById("earth_button")
     botonTierra.addEventListener("click", ataqueTierra)
-
-    let botonReiniciar = document.getElementById("restart_button")
     botonReiniciar.addEventListener("click", reiniciarJuego)
 
     imgArcher.addEventListener("click", imageArcher)
@@ -72,7 +83,6 @@ function beginGame() {
         botonArcher.disabled = true
         botonKnight.disabled = true
     }
-
 
     botonArcher.addEventListener("click", Archer)
     function Archer() {
@@ -106,33 +116,16 @@ function beginGame() {
 
 function SeleccCharEnemigo() {
 
-    let header2 = document.getElementById("header2")
     header2.style.display = "none"
-    
-    let sectionCharButtons = document.getElementById("buttons")
     sectionCharButtons.style.display = "none"
-    
-    let sectionSeleccChar = document.getElementById("char_selection")
     sectionSeleccChar.style.display = "none"
-
-    let resultadoCombate = document.getElementById("resultado-combate")
     resultadoCombate.style.display = "flex"
-    
-    let sectionSeleccAtaque = document.getElementById("attack_selection")
     sectionSeleccAtaque.style.display = "flex"
-
-    let bttnsAttack = document.getElementById("attack_buttons")
     bttnsAttack.style.display = "flex"
-
-    let sectionLives = document.getElementById("lives")
     sectionLives.style.display = "grid"
-
-    let restartBttn = document.getElementById("boton-reiniciar")
     restartBttn.style.display = "none"
 
-
     let charEnemigo = aleatorio(1,3)
-    let characterEnemigo = document.getElementById("nombre_mascota_enemigo")
 
     if (charEnemigo === 1) {
         //Archer
@@ -147,9 +140,6 @@ function SeleccCharEnemigo() {
     return characterEnemigo.innerHTML
 }
 
-function aleatorio(min,max) {
-    return Math.floor(Math.random()* (max - min +1) + min)
-}
 
 function ataqueFuego(){
     ataqueJugador= "BOW 🏹"
@@ -180,47 +170,7 @@ function ataqueAleatorioEnemigo(){
     combate()
 }
 
-function crearMensaje(resultado){
-    
-    let sectMensaje = document.getElementById("resultado")
-    let sectAtaqueJugador = document.getElementById("ataque-jugador")
-    let sectAtaqueEnemigo = document.getElementById("ataque-enemigo")
-
-    let NuevoAtaqueJugador = document.createElement("p")
-    let NuevoAtaqueEnemigo = document.createElement("p")
-
-    sectMensaje.innerHTML = resultado
-    NuevoAtaqueJugador.innerHTML = ataqueJugador
-    NuevoAtaqueEnemigo.innerHTML = ataqueEnemigo
-    
-    sectAtaqueJugador.appendChild(NuevoAtaqueJugador)
-    sectAtaqueEnemigo.appendChild(NuevoAtaqueEnemigo)
-}
-
-function crearMensajeFinal(resultadoFinal){
-    
-    let sectMensajeFinal = document.getElementById("resultado")
-    sectMensajeFinal.innerHTML = resultadoFinal
-
-    let botonFuego = document.getElementById("fire_button")
-    botonFuego.disabled = true
-    
-    let botonAgua = document.getElementById("water_button")
-    botonAgua.disabled = true
-    
-    let botonTierra = document.getElementById("earth_button")
-    botonTierra.disabled = true
-
-    let restartBttn = document.getElementById("boton-reiniciar")
-    restartBttn.style.display = "flex"
-    
-}
-
-
 function combate(){
-
-    let spanVidasJugador = document.getElementById("vidas_jugador")
-    let spanVidasEnemigo = document.getElementById("vidas_enemigo")
     
     if ( ataqueJugador === ataqueEnemigo) {
         crearMensaje("IT'S A TIE!")
@@ -252,6 +202,33 @@ function revisarVidas(){
         crearMensajeFinal("¡Defeated! Try again.")
     }
 
+}
+
+function crearMensaje(resultado){
+    
+    let NuevoAtaqueJugador = document.createElement("p")
+    let NuevoAtaqueEnemigo = document.createElement("p")
+
+    sectMensaje.innerHTML = resultado
+    NuevoAtaqueJugador.innerHTML = ataqueJugador
+    NuevoAtaqueEnemigo.innerHTML = ataqueEnemigo
+    
+    sectAtaqueJugador.appendChild(NuevoAtaqueJugador)
+    sectAtaqueEnemigo.appendChild(NuevoAtaqueEnemigo)
+}
+
+function crearMensajeFinal(resultadoFinal){
+    
+    sectMensajeFinal.innerHTML = resultadoFinal
+    botonFuego.disabled = true
+    botonAgua.disabled = true
+    botonTierra.disabled = true
+    restartBttn.style.display = "flex"
+}
+
+
+function aleatorio(min,max) {
+    return Math.floor(Math.random()* (max - min +1) + min)
 }
 
 function reiniciarJuego(){
