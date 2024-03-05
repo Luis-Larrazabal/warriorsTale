@@ -45,8 +45,8 @@ function beginGame() {
 
     imgArcher.addEventListener("click", imageArcher)
     function imageArcher(){
-        alert("You chose Juana!")
-        nombreMascota.innerHTML = "Juana"
+        alert("You chose JUANA!")
+        nombreMascota.innerHTML = "JUANA"
         let CharEnemigo = SeleccCharEnemigo()
         alert("Your opponent is: " + CharEnemigo)
         botonKnight.disabled = true
@@ -55,8 +55,8 @@ function beginGame() {
 
     imgKnight.addEventListener("click", imageKnight)
     function imageKnight(){
-        alert("You chose Arthur!")
-        nombreMascota.innerHTML = "Arthur"
+        alert("You chose ARTHUR!")
+        nombreMascota.innerHTML = "ARTHUR"
         let CharEnemigo = SeleccCharEnemigo()
         alert("Your opponent is: " + CharEnemigo)
         botonArcher.disabled = true
@@ -65,8 +65,8 @@ function beginGame() {
 
     imgSpear.addEventListener("click", imageSpear)
     function imageSpear(){
-        alert("You chose Rose!")
-        nombreMascota.innerHTML = "Rose"
+        alert("You chose ROSE!")
+        nombreMascota.innerHTML = "ROSE"
         let CharEnemigo = SeleccCharEnemigo()
         alert("Your opponent is: " + CharEnemigo)
         botonArcher.disabled = true
@@ -76,8 +76,8 @@ function beginGame() {
 
     botonArcher.addEventListener("click", Archer)
     function Archer() {
-        alert("You chose Juana!")
-        nombreMascota.innerHTML = "Juana"
+        alert("You chose JUANA!")
+        nombreMascota.innerHTML = "JUANA"
         let CharEnemigo = SeleccCharEnemigo()
         alert("Your opponent is: " + CharEnemigo)
         botonKnight.disabled = true
@@ -85,8 +85,8 @@ function beginGame() {
     }
     botonKnight.addEventListener("click", Knight)
     function Knight() {
-        alert("You chose Arthur!")
-        nombreMascota.innerHTML = "Arthur"
+        alert("You chose ARTHUR!")
+        nombreMascota.innerHTML = "ARTHUR"
         let CharEnemigo = SeleccCharEnemigo()
         alert("Your opponent is: " + CharEnemigo)
         botonArcher.disabled = true
@@ -94,8 +94,8 @@ function beginGame() {
     }
     botonSpear.addEventListener("click", Spear)
     function Spear() {
-        alert("You chose Rose!")
-        nombreMascota.innerHTML = "Rose"
+        alert("You chose ROSE!")
+        nombreMascota.innerHTML = "ROSE"
         let CharEnemigo = SeleccCharEnemigo()
         alert("Your opponent is: " + CharEnemigo)
         botonArcher.disabled = true
@@ -125,7 +125,7 @@ function SeleccCharEnemigo() {
     bttnsAttack.style.display = "flex"
 
     let sectionLives = document.getElementById("lives")
-    sectionLives.style.display = "block"
+    sectionLives.style.display = "grid"
 
     let restartBttn = document.getElementById("boton-reiniciar")
     restartBttn.style.display = "none"
@@ -136,13 +136,13 @@ function SeleccCharEnemigo() {
 
     if (charEnemigo === 1) {
         //Archer
-        characterEnemigo.innerHTML = "Juana"
+        characterEnemigo.innerHTML = "JUANA"
     } else if (charEnemigo === 2) {
         //Knight
-        characterEnemigo.innerHTML = "Arthur"
+        characterEnemigo.innerHTML = "ARTHUR"
     } else if (charEnemigo === 3) {
         //Spear
-        characterEnemigo.innerHTML = "Rose"
+        characterEnemigo.innerHTML = "ROSE"
     }
     return characterEnemigo.innerHTML
 }
@@ -223,21 +223,21 @@ function combate(){
     let spanVidasEnemigo = document.getElementById("vidas_enemigo")
     
     if ( ataqueJugador === ataqueEnemigo) {
-        crearMensaje("EMPATE!")
+        crearMensaje("IT'S A TIE!")
     } else if (ataqueJugador == "BOW 🏹" && ataqueEnemigo == "SPEAR 🦯") {
-        crearMensaje("GANASTE!")
+        crearMensaje("YOU WON!")
         vidasEnemigo--
         spanVidasEnemigo.innerHTML = vidasEnemigo
     } else if (ataqueJugador == "SWORD 🗡️" && ataqueEnemigo == "BOW 🏹") {
-        crearMensaje("GANASTE!")
+        crearMensaje("YOU WON!")
         vidasEnemigo--
         spanVidasEnemigo.innerHTML = vidasEnemigo
     } else if (ataqueJugador == "SPEAR 🦯" && ataqueEnemigo == "SWORD 🗡️") {
-        crearMensaje("GANASTE!")
+        crearMensaje("YOU WON!")
         vidasEnemigo--
         spanVidasEnemigo.innerHTML = vidasEnemigo
     } else {
-        crearMensaje("PERDISTE!")
+        crearMensaje("YOU LOST!")
         vidasJugador--
         spanVidasJugador.innerHTML = vidasJugador
     }
@@ -247,9 +247,9 @@ function combate(){
 function revisarVidas(){
     // DRY = don't repeat yourself
     if (vidasEnemigo === 0){
-        crearMensajeFinal("Felicidades! Has ganado 😁")
+        crearMensajeFinal("¡Victory! You won the battle!")
     } else if (vidasJugador === 0){
-        crearMensajeFinal("Lo siento. Has perdido ☹️")
+        crearMensajeFinal("¡Defeated! Try again.")
     }
 
 }
@@ -257,3 +257,4 @@ function revisarVidas(){
 function reiniciarJuego(){
     location.reload()
 }
+

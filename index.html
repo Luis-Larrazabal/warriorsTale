@@ -8,7 +8,6 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=IM+Fell+Double+Pica:ital@0;1&display=swap" rel="stylesheet">
-        <script src="./mokepon javascript/mokeponjs.js"></script>
         <link rel="stylesheet" href="./style.css">
     </head>
     
@@ -34,7 +33,7 @@
         
         </section>
 
-            <div id ="buttons">
+            <div id ="buttons" class="buttons2">
                 <button id = "btn-archer">JUANA</button>
                 <button id = "btn-knight">ARTHUR</button>
                 <button id = "btn-spear">ROSE</button>
@@ -64,23 +63,25 @@
         <section id= "resultado-combate">
             <p id="resultado"></p>
             <div id="boton-reiniciar">
-                <button id="restart_button">Reiniciar</button>
+                <button id="restart_button">RESTART</button>
             </div>
         </section>
 
-        
-
-        <div id="lives">
-
-            <div id="ataque-jugador"></div>
-            <div id="ataque-enemigo"></div>
-            
-            <p>Your warrior <u><span id="nombre_mascota_jugador"></span></u> has <span id="vidas_jugador">3</span> remaining lives</p>
-            <p>Opponent warrior <u><span id="nombre_mascota_enemigo"></span></u> has <span id="vidas_enemigo">3</span> remianing lives</p>
+        <div id="lives" class="grid-padre">
+            <div class="cuadro-jugador">
+                <p id="vidas_jugador">3</p>
+                <p id="nombre_mascota_jugador"></p>
+                <div id="ataque-jugador"></div>
+            </div>
+            <div>
+                <img id="vs-logo" src="./Resources/—Pngtree—vs logo on colorful scrath_5993167.png" width="250px" height="250px"/>
+            </div>
+            <div class="cuadro-enemigo">
+                <p id="vidas_enemigo">3</p>
+                <p id="nombre_mascota_enemigo"></p>
+                <div id="ataque-enemigo"></div>
+            </div>
         </div>
-
-        
-
-
+        <script src="./javascript.js"></script>
     </body>
 </html>
