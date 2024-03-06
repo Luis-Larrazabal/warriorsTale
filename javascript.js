@@ -48,16 +48,39 @@ class Warrior {
         this.name = name
         this.image = image
         this.lifes = lifes
+        this.attacks = []
     }
 }
 
-let Juana = new Warrior ('img-archer', './Resources/archer.png', 3)
-let Arthur = new Warrior ('img-knight', './Resources/knight.png', 3)
-let Rose = new Warrior ('img-spear', './Resources/spear.png', 3)
+let juana = new Warrior ('img-archer', './Resources/archer.png', 3)
+let arthur = new Warrior ('img-knight', './Resources/knight.png', 3)
+let rose = new Warrior ('img-spear', './Resources/spear.png', 3)
 
-warriors.push(Juana, Arthur, Rose)
+warriors.push(juana, arthur, rose)
 
-console.log(warriors)
+juana.attacks.push(
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🦯', id: 'earth_button' },
+)
+
+arthur.attacks.push(
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🦯', id: 'earth_button' },
+)
+
+rose.attacks.push(
+    { attackName: '🦯', id: 'earth_button' },
+    { attackName: '🦯', id: 'earth_button' },
+    { attackName: '🦯', id: 'earth_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🗡️', id: 'water_button' },
+)
 
 window.addEventListener("load", beginGame)
 
