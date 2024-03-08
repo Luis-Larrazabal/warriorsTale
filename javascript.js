@@ -8,13 +8,14 @@ const botonArcher = document.getElementById("btn-archer")
 const botonKnight = document.getElementById("btn-knight")
 const botonSpear = document.getElementById("btn-spear")
 const nombreMascota = document.getElementById("nombre_mascota_jugador")
-const imgArcher = document.getElementById("img-archer")
-const imgKnight = document.getElementById("img-knight")
-const imgSpear = document.getElementById("img-spear")
+const imgArcher = document.getElementById("Juana")
+const imgKnight = document.getElementById("Arthur")
+const imgSpear = document.getElementById("Rose")
 const botonFuego = document.getElementById("fire_button")
 const botonAgua = document.getElementById("water_button")
 const botonTierra = document.getElementById("earth_button")
 const botonReiniciar = document.getElementById("restart_button")
+const ContainerFoChars = document.getElementById("CharsContainer")
                 
                 // SeleccCharEnemigo 
 const header2 = document.getElementById("header2")
@@ -37,7 +38,9 @@ const sectMensajeFinal = document.getElementById("resultado")
 
                        // lets generales
 
+
 let warriors = []
+let warriorsOption 
 let ataqueJugador 
 let ataqueEnemigo
 let vidasJugador = 3
@@ -52,11 +55,9 @@ class Warrior {
     }
 }
 
-let juana = new Warrior ('img-archer', './Resources/archer.png', 3)
-let arthur = new Warrior ('img-knight', './Resources/knight.png', 3)
-let rose = new Warrior ('img-spear', './Resources/spear.png', 3)
-
-warriors.push(juana, arthur, rose)
+let juana = new Warrior ('Juana', './Resources/archer.png', 5)
+let arthur = new Warrior ('Arthur', './Resources/knight.png', 5)
+let rose = new Warrior ('Rose', './Resources/spear.png', 5)
 
 juana.attacks.push(
     { attackName: '🏹', id: 'fire_button' },
@@ -82,6 +83,8 @@ rose.attacks.push(
     { attackName: '🗡️', id: 'water_button' },
 )
 
+warriors.push(juana, arthur, rose)
+
 window.addEventListener("load", beginGame)
 
 function beginGame() {
@@ -90,6 +93,8 @@ function beginGame() {
     sectionLives.style.display = "none"
     bttnsAttack.style.display = "none"
     resultadoCombate.style.display = "none"
+
+
     botonFuego.addEventListener("click", ataqueFuego)
     botonAgua.addEventListener("click", ataqueAgua)
     botonTierra.addEventListener("click", ataqueTierra)
@@ -97,60 +102,44 @@ function beginGame() {
 
     imgArcher.addEventListener("click", imageArcher)
     function imageArcher(){
-        alert("You chose JUANA!")
-        nombreMascota.innerHTML = "JUANA"
         let CharEnemigo = SeleccCharEnemigo()
-        alert("Your opponent is: " + CharEnemigo)
-        botonKnight.disabled = true
-        botonSpear.disabled = true
+        alert("You chose Juana! " + "Your opponent is: " + CharEnemigo)
+        nombreMascota.innerHTML = imgArcher.id
     }
 
     imgKnight.addEventListener("click", imageKnight)
     function imageKnight(){
-        alert("You chose ARTHUR!")
-        nombreMascota.innerHTML = "ARTHUR"
         let CharEnemigo = SeleccCharEnemigo()
-        alert("Your opponent is: " + CharEnemigo)
-        botonArcher.disabled = true
-        botonSpear.disabled = true
+        alert("You chose Arthur! " + "Your opponent is: " + CharEnemigo)
+        nombreMascota.innerHTML = imgKnight.id
     }
 
     imgSpear.addEventListener("click", imageSpear)
     function imageSpear(){
-        alert("You chose ROSE!")
-        nombreMascota.innerHTML = "ROSE"
         let CharEnemigo = SeleccCharEnemigo()
-        alert("Your opponent is: " + CharEnemigo)
-        botonArcher.disabled = true
-        botonKnight.disabled = true
+        alert("You chose Rose! " + "Your opponent is: " + CharEnemigo)
+        nombreMascota.innerHTML = imgSpear.id
     }
 
     botonArcher.addEventListener("click", Archer)
     function Archer() {
-        alert("You chose JUANA!")
-        nombreMascota.innerHTML = "JUANA"
         let CharEnemigo = SeleccCharEnemigo()
-        alert("Your opponent is: " + CharEnemigo)
-        botonKnight.disabled = true
-        botonSpear.disabled = true
+        alert("You chose Juana! " + "Your opponent is: " + CharEnemigo)
+        nombreMascota.innerHTML = imgArcher.id
     }
+    
     botonKnight.addEventListener("click", Knight)
     function Knight() {
-        alert("You chose ARTHUR!")
-        nombreMascota.innerHTML = "ARTHUR"
         let CharEnemigo = SeleccCharEnemigo()
-        alert("Your opponent is: " + CharEnemigo)
-        botonArcher.disabled = true
-        botonSpear.disabled = true
+        alert("You chose Arthur! " + "Your opponent is: " + CharEnemigo)
+        nombreMascota.innerHTML = imgKnight.id
     }
+    
     botonSpear.addEventListener("click", Spear)
     function Spear() {
-        alert("You chose ROSE!")
-        nombreMascota.innerHTML = "ROSE"
         let CharEnemigo = SeleccCharEnemigo()
-        alert("Your opponent is: " + CharEnemigo)
-        botonArcher.disabled = true
-        botonKnight.disabled = true
+        alert("You chose Rose!" + " Your opponent is: " + CharEnemigo)
+        nombreMascota.innerHTML = imgSpear.id
     }
 }
 
@@ -166,18 +155,10 @@ function SeleccCharEnemigo() {
     sectionLives.style.display = "grid"
     restartBttn.style.display = "none"
 
-    let charEnemigo = aleatorio(1,3)
-
-    if (charEnemigo === 1) {
-        //Archer
-        characterEnemigo.innerHTML = "JUANA"
-    } else if (charEnemigo === 2) {
-        //Knight
-        characterEnemigo.innerHTML = "ARTHUR"
-    } else if (charEnemigo === 3) {
-        //Spear
-        characterEnemigo.innerHTML = "ROSE"
-    }
+    let randomChar = aleatorio(0, warriors.length -1)
+     
+    characterEnemigo.innerHTML = warriors[randomChar].name
+    
     return characterEnemigo.innerHTML
 }
 

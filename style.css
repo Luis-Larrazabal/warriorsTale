@@ -194,6 +194,7 @@ body {
 
 #vidas_jugador, #vidas_enemigo {
     font-size: 50px;
+    margin-bottom: 0;
 }
 
 @media (max-width: 360px) {
