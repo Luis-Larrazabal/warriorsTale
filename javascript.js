@@ -45,6 +45,7 @@ let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
+let playerWarrior 
 
 class Warrior {
     constructor(name, image, lifes) {
@@ -100,11 +101,14 @@ function beginGame() {
     botonTierra.addEventListener("click", ataqueTierra)
     botonReiniciar.addEventListener("click", reiniciarJuego)
 
+    
     imgArcher.addEventListener("click", imageArcher)
     function imageArcher(){
         let CharEnemigo = SeleccCharEnemigo()
         alert("You chose Juana! " + "Your opponent is: " + CharEnemigo)
         nombreMascota.innerHTML = imgArcher.id
+        playerWarrior = imgArcher.id
+        extraerAtaques(playerWarrior)
     }
 
     imgKnight.addEventListener("click", imageKnight)
@@ -112,6 +116,8 @@ function beginGame() {
         let CharEnemigo = SeleccCharEnemigo()
         alert("You chose Arthur! " + "Your opponent is: " + CharEnemigo)
         nombreMascota.innerHTML = imgKnight.id
+        playerWarrior = imgKnight.id
+        extraerAtaques(playerWarrior)
     }
 
     imgSpear.addEventListener("click", imageSpear)
@@ -119,6 +125,8 @@ function beginGame() {
         let CharEnemigo = SeleccCharEnemigo()
         alert("You chose Rose! " + "Your opponent is: " + CharEnemigo)
         nombreMascota.innerHTML = imgSpear.id
+        playerWarrior = imgSpear.id
+        extraerAtaques(playerWarrior)
     }
 
     botonArcher.addEventListener("click", Archer)
@@ -126,6 +134,8 @@ function beginGame() {
         let CharEnemigo = SeleccCharEnemigo()
         alert("You chose Juana! " + "Your opponent is: " + CharEnemigo)
         nombreMascota.innerHTML = imgArcher.id
+        playerWarrior = imgArcher.id
+        extraerAtaques(playerWarrior)
     }
     
     botonKnight.addEventListener("click", Knight)
@@ -133,6 +143,8 @@ function beginGame() {
         let CharEnemigo = SeleccCharEnemigo()
         alert("You chose Arthur! " + "Your opponent is: " + CharEnemigo)
         nombreMascota.innerHTML = imgKnight.id
+        playerWarrior = imgKnight.id
+        extraerAtaques(playerWarrior)
     }
     
     botonSpear.addEventListener("click", Spear)
@@ -140,9 +152,20 @@ function beginGame() {
         let CharEnemigo = SeleccCharEnemigo()
         alert("You chose Rose!" + " Your opponent is: " + CharEnemigo)
         nombreMascota.innerHTML = imgSpear.id
+        playerWarrior = imgSpear.id
+        extraerAtaques(playerWarrior)
     }
 }
 
+function extraerAtaques(playerWarrior) {
+    let ataques 
+    for (let i = 0; i < warriors.length; i++) {
+        if (playerWarrior === warriors[i].name) {
+            ataques = warriors[i].attacks
+        }
+    }
+    console.log( ataques)
+}
 
 function SeleccCharEnemigo() {
 
