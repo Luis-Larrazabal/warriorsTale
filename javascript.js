@@ -11,11 +11,9 @@ const nombreMascota = document.getElementById("nombre_mascota_jugador")
 const imgArcher = document.getElementById("Juana")
 const imgKnight = document.getElementById("Arthur")
 const imgSpear = document.getElementById("Rose")
-const botonFuego = document.getElementById("fire_button")
-const botonAgua = document.getElementById("water_button")
-const botonTierra = document.getElementById("earth_button")
-const botonReiniciar = document.getElementById("restart_button")
+
 const ContainerFoChars = document.getElementById("CharsContainer")
+const showAttacks = document.getElementById("buttons")
                 
                 // SeleccCharEnemigo 
 const header2 = document.getElementById("header2")
@@ -38,7 +36,11 @@ const sectMensajeFinal = document.getElementById("resultado")
 
                        // lets generales
 
-
+let botonFuego 
+let botonAgua 
+let botonTierra 
+let botones = {}
+let warriorAttacks
 let warriors = []
 let warriorsOption 
 let ataqueJugador 
@@ -61,7 +63,7 @@ let arthur = new Warrior ('Arthur', './Resources/knight.png', 5)
 let rose = new Warrior ('Rose', './Resources/spear.png', 5)
 
 juana.attacks.push(
-    { attackName: '🏹', id: 'fire_button' },
+    { attackName: 'BOW 🏹', id: 'fire_button' },
     { attackName: '🏹', id: 'fire_button' },
     { attackName: '🏹', id: 'fire_button' },
     { attackName: '🗡️', id: 'water_button' },
@@ -94,12 +96,6 @@ function beginGame() {
     sectionLives.style.display = "none"
     bttnsAttack.style.display = "none"
     resultadoCombate.style.display = "none"
-
-
-    botonFuego.addEventListener("click", ataqueFuego)
-    botonAgua.addEventListener("click", ataqueAgua)
-    botonTierra.addEventListener("click", ataqueTierra)
-    botonReiniciar.addEventListener("click", reiniciarJuego)
 
     
     imgArcher.addEventListener("click", imageArcher)
@@ -164,7 +160,26 @@ function extraerAtaques(playerWarrior) {
             ataques = warriors[i].attacks
         }
     }
-    console.log( ataques)
+    mostrarAtaques(ataques)
+}
+
+function mostrarAtaques(attacks) {
+    attacks.forEach((attack) => {
+        warriorAttacks = `
+        <button class = "atack_bttns attackB" id =${attack.id}>${attack.attackName}</button>
+        `
+        attack_buttons.innerHTML += warriorAttacks
+    })
+    
+    botonFuego = document.getElementById("fire_button")
+    botonAgua = document.getElementById("water_button")
+    botonTierra = document.getElementById("earth_button")
+    botonFuego.addEventListener('click', ataqueFuego)
+    botonAgua.addEventListener('click', ataqueAgua)
+    botonTierra.addEventListener('click', ataqueTierra)
+
+    botones = document.querySelectorAll('.attackB')
+    console.log(botones)
 }
 
 function SeleccCharEnemigo() {
@@ -269,6 +284,7 @@ function crearMensajeFinal(resultadoFinal){
     botonAgua.disabled = true
     botonTierra.disabled = true
     restartBttn.style.display = "flex"
+    restartBttn.addEventListener('click', reiniciarJuego)
 }
 
 
