@@ -48,6 +48,7 @@ let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
 let playerWarrior 
+let playerAttack = []
 
 class Warrior {
     constructor(name, image, lifes) {
@@ -63,7 +64,7 @@ let arthur = new Warrior ('Arthur', './Resources/knight.png', 5)
 let rose = new Warrior ('Rose', './Resources/spear.png', 5)
 
 juana.attacks.push(
-    { attackName: 'BOW 🏹', id: 'fire_button' },
+    { attackName: '🏹', id: 'fire_button' },
     { attackName: '🏹', id: 'fire_button' },
     { attackName: '🏹', id: 'fire_button' },
     { attackName: '🗡️', id: 'water_button' },
@@ -105,6 +106,7 @@ function beginGame() {
         nombreMascota.innerHTML = imgArcher.id
         playerWarrior = imgArcher.id
         extraerAtaques(playerWarrior)
+        
     }
 
     imgKnight.addEventListener("click", imageKnight)
@@ -174,12 +176,28 @@ function mostrarAtaques(attacks) {
     botonFuego = document.getElementById("fire_button")
     botonAgua = document.getElementById("water_button")
     botonTierra = document.getElementById("earth_button")
-    botonFuego.addEventListener('click', ataqueFuego)
-    botonAgua.addEventListener('click', ataqueAgua)
-    botonTierra.addEventListener('click', ataqueTierra)
-
     botones = document.querySelectorAll('.attackB')
-    console.log(botones)
+    
+    attackSequence()
+}
+
+function attackSequence(){
+    botones.forEach((boton) => {
+        boton.addEventListener('click', (e) => {
+            if (e.target.textContent === '🏹') {
+                playerAttack.push('BOW')
+                console.log(playerAttack)
+                boton.style.background = '#000000'
+            } else if (e.target.textContent === '🗡️') {
+                playerAttack.push('SWORD')
+                console.log(playerAttack)
+                boton.style.background = '#000000'
+            } else 
+                playerAttack.push('SPEAR')
+                console.log(playerAttack)
+                boton.style.background = 'rgba(0, 0, 0, 0.9)'
+        })
+    })
 }
 
 function SeleccCharEnemigo() {
@@ -199,22 +217,6 @@ function SeleccCharEnemigo() {
     
     return characterEnemigo.innerHTML
 }
-
-
-function ataqueFuego(){
-    ataqueJugador= "BOW 🏹"
-    ataqueAleatorioEnemigo()
-}
-
-function ataqueAgua(){
-    ataqueJugador= "SWORD 🗡️"
-    ataqueAleatorioEnemigo()
-}
-
-function ataqueTierra(){
-    ataqueJugador= "SPEAR 🦯"
-    ataqueAleatorioEnemigo()
-} 
 
 function ataqueAleatorioEnemigo(){
     let ataqueAleatorio= aleatorio(1,3)
