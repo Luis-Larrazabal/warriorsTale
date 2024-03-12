@@ -34,6 +34,10 @@ const sectAtaqueEnemigo = document.getElementById("ataque-enemigo")
                     //crearMensajeFinal 
 const sectMensajeFinal = document.getElementById("resultado")
 
+                    //canvas
+const sectionVerMapa = document.getElementById('ver-mapa')
+const mapa = document.getElementById('mapa')
+
                        // lets generales
 
 let botonFuego 
@@ -43,12 +47,16 @@ let botones = {}
 let warriorAttacks
 let warriors = []
 let warriorsOption 
-let ataqueJugador 
-let ataqueEnemigo
+let ataqueEnemigo = []
 let vidasJugador = 3
 let vidasEnemigo = 3
 let playerWarrior 
 let playerAttack = []
+let enemyAttacks 
+let indexAtaqueJugador
+let indexAtaqueEnemigo 
+let playerVictories = 0
+let enemyVictories = 0
 
 class Warrior {
     constructor(name, image, lifes) {
@@ -97,6 +105,7 @@ function beginGame() {
     sectionLives.style.display = "none"
     bttnsAttack.style.display = "none"
     resultadoCombate.style.display = "none"
+    sectionVerMapa.style.display = 
 
     
     imgArcher.addEventListener("click", imageArcher)
@@ -106,7 +115,6 @@ function beginGame() {
         nombreMascota.innerHTML = imgArcher.id
         playerWarrior = imgArcher.id
         extraerAtaques(playerWarrior)
-        
     }
 
     imgKnight.addEventListener("click", imageKnight)
@@ -188,14 +196,19 @@ function attackSequence(){
                 playerAttack.push('BOW')
                 console.log(playerAttack)
                 boton.style.background = '#000000'
+                boton.disabled = true
             } else if (e.target.textContent === '🗡️') {
                 playerAttack.push('SWORD')
                 console.log(playerAttack)
                 boton.style.background = '#000000'
-            } else 
+                boton.disabled = true
+            } else {
                 playerAttack.push('SPEAR')
                 console.log(playerAttack)
                 boton.style.background = 'rgba(0, 0, 0, 0.9)'
+                boton.disabled = true
+            }
+            ataqueAleatorioEnemigo()
         })
     })
 }
@@ -205,65 +218,87 @@ function SeleccCharEnemigo() {
     header2.style.display = "none"
     sectionCharButtons.style.display = "none"
     sectionSeleccChar.style.display = "none"
-    resultadoCombate.style.display = "flex"
-    sectionSeleccAtaque.style.display = "flex"
-    bttnsAttack.style.display = "flex"
-    sectionLives.style.display = "grid"
-    restartBttn.style.display = "none"
+    //resultadoCombate.style.display = "flex"
+    //sectionSeleccAtaque.style.display = "flex"
+    //bttnsAttack.style.display = "flex"
+    //sectionLives.style.display = "grid"
+    //restartBttn.style.display = "none"
+    sectionVerMapa.style.display = 'flex'
 
     let randomChar = aleatorio(0, warriors.length -1)
      
     characterEnemigo.innerHTML = warriors[randomChar].name
+
+    enemyAttacks = warriors[randomChar].attacks
     
     return characterEnemigo.innerHTML
 }
 
 function ataqueAleatorioEnemigo(){
-    let ataqueAleatorio= aleatorio(1,3)
+    let ataqueAleatorio= aleatorio(0,enemyAttacks.length -1)
 
-    if (ataqueAleatorio === 1) {
-        ataqueEnemigo= "BOW 🏹"
-    } else if (ataqueAleatorio === 2){
-        ataqueEnemigo= "SWORD 🗡️"
-    }else if (ataqueAleatorio === 3){
-        ataqueEnemigo = "SPEAR 🦯"
+    if (ataqueAleatorio === 0 || ataqueAleatorio === 1) {
+        ataqueEnemigo.push('BOW')
+    } else if (ataqueAleatorio === 3 || ataqueAleatorio === 4){
+        ataqueEnemigo.push('SWORD')
+    }else 
+        ataqueEnemigo.push('SPEAR')
+
+    console.log(ataqueEnemigo)
+    iniciarPelea()
+}
+
+function iniciarPelea() {
+    if (playerAttack.length === 5) {
+        combate()
     }
+}
 
-    combate()
+function indexAtaques(jugador,enemigo) {
+    indexAtaqueJugador = playerAttack[jugador]
+    indexAtaqueEnemigo = ataqueEnemigo[enemigo]
 }
 
 function combate(){
-    
-    if ( ataqueJugador === ataqueEnemigo) {
-        crearMensaje("IT'S A TIE!")
-    } else if (ataqueJugador == "BOW 🏹" && ataqueEnemigo == "SPEAR 🦯") {
-        crearMensaje("YOU WON!")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else if (ataqueJugador == "SWORD 🗡️" && ataqueEnemigo == "BOW 🏹") {
-        crearMensaje("YOU WON!")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else if (ataqueJugador == "SPEAR 🦯" && ataqueEnemigo == "SWORD 🗡️") {
-        crearMensaje("YOU WON!")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else {
-        crearMensaje("YOU LOST!")
-        vidasJugador--
-        spanVidasJugador.innerHTML = vidasJugador
+
+    for (let index = 0; index < playerAttack.length; index++) {
+        if (playerAttack[index] === ataqueEnemigo[index]) {
+            indexAtaques(index,index)
+            crearMensaje("IT'S A TIE!")
+        } else if (playerAttack[index] === "BOW" && ataqueEnemigo[index] == "SPEAR") {
+            indexAtaques(index,index)
+            crearMensaje("YOU WON!")
+            playerVictories++
+            spanVidasJugador.innerHTML = playerVictories
+        } else if (playerAttack[index] === "SWORD" && ataqueEnemigo[index] === "BOW") {
+            indexAtaques(index,index)
+            crearMensaje("YOU WON!")
+            playerVictories++
+            spanVidasJugador.innerHTML = playerVictories
+        } else if (playerAttack[index] === "SPEAR" && ataqueEnemigo[index] === "SWORD") {
+            indexAtaques(index,index)
+            crearMensaje("YOU WON!")
+            playerVictories++
+            spanVidasJugador.innerHTML = playerVictories
+        } else {
+            indexAtaques(index,index)
+            crearMensaje("YOU LOST!")
+            enemyVictories++
+            spanVidasEnemigo.innerHTML = enemyVictories
+        }
+        checkVictories()
     }
-    revisarVidas()
 }
 
-function revisarVidas(){
+function checkVictories(){
     // DRY = don't repeat yourself
-    if (vidasEnemigo === 0){
+    if (playerVictories === enemyVictories){
+        crearMensajeFinal('This time is a tie!')
+    } else if (playerVictories > enemyVictories){
         crearMensajeFinal("¡Victory! You won the battle!")
-    } else if (vidasJugador === 0){
-        crearMensajeFinal("¡Defeated! Try again.")
+    } else {
+    crearMensajeFinal("¡Defeated! Try again.")
     }
-
 }
 
 function crearMensaje(resultado){
@@ -272,8 +307,8 @@ function crearMensaje(resultado){
     let NuevoAtaqueEnemigo = document.createElement("p")
 
     sectMensaje.innerHTML = resultado
-    NuevoAtaqueJugador.innerHTML = ataqueJugador
-    NuevoAtaqueEnemigo.innerHTML = ataqueEnemigo
+    NuevoAtaqueJugador.innerHTML = indexAtaqueJugador
+    NuevoAtaqueEnemigo.innerHTML = indexAtaqueEnemigo
     
     sectAtaqueJugador.appendChild(NuevoAtaqueJugador)
     sectAtaqueEnemigo.appendChild(NuevoAtaqueEnemigo)
@@ -282,9 +317,6 @@ function crearMensaje(resultado){
 function crearMensajeFinal(resultadoFinal){
     
     sectMensajeFinal.innerHTML = resultadoFinal
-    botonFuego.disabled = true
-    botonAgua.disabled = true
-    botonTierra.disabled = true
     restartBttn.style.display = "flex"
     restartBttn.addEventListener('click', reiniciarJuego)
 }
