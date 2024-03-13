@@ -65,6 +65,12 @@ class Warrior {
         this.image = image
         this.lifes = lifes
         this.attacks = []
+        this.x = 110
+        this.y = 20
+        this.ancho = 100
+        this.alto = 100
+        this.ImageMap = new Image()
+        this.ImageMap.src = image
     }
 }
 
@@ -106,7 +112,7 @@ function beginGame() {
     sectionLives.style.display = "none"
     bttnsAttack.style.display = "none"
     resultadoCombate.style.display = "none"
-    sectionVerMapa.style.display = 
+    sectionVerMapa.style.display = 'none'
 
     
     imgArcher.addEventListener("click", imageArcher)
@@ -225,16 +231,7 @@ function SeleccCharEnemigo() {
     //sectionLives.style.display = "grid"
     //restartBttn.style.display = "none"
     sectionVerMapa.style.display = 'flex'
-
-    let warriorImage = new Image()
-    warriorImage.src = juana.image
-    canva.drawImage(
-        warriorImage,
-        20,
-        40,
-        100,
-        100,
-    )
+    drawImage()
 
     let randomChar = aleatorio(0, warriors.length -1)
      
@@ -335,6 +332,37 @@ function crearMensajeFinal(resultadoFinal){
 
 function aleatorio(min,max) {
     return Math.floor(Math.random()* (max - min +1) + min)
+}
+
+function drawImage() {
+    canva.clearRect(0,0,mapa.width, mapa.height)
+    canva.drawImage(
+        juana.ImageMap,
+        juana.x,
+        juana.y,
+        juana.ancho,
+        juana.alto,
+    )
+}
+
+function moveRigth() {
+    juana.x = juana.x + 10
+    drawImage()
+}
+
+function moveLeft() {
+    juana.x = juana.x - 10
+    drawImage()
+}
+
+function moveUp() {
+    juana.y = juana.y - 10
+    drawImage()
+}
+
+function moveDown() {
+    juana.y = juana.y + 10
+    drawImage()
 }
 
 function reiniciarJuego(){
