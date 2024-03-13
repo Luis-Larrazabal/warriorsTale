@@ -120,8 +120,7 @@ function beginGame() {
     
     imgArcher.addEventListener("click", imageArcher)
     function imageArcher(){
-        let CharEnemigo = SeleccCharEnemigo()
-        alert("You chose Juana! " + "Your opponent is: " + CharEnemigo)
+        SeleccCharEnemigo()
         nombreMascota.innerHTML = imgArcher.id
         playerWarrior = imgArcher.id
         extraerAtaques(playerWarrior)
@@ -129,8 +128,7 @@ function beginGame() {
 
     imgKnight.addEventListener("click", imageKnight)
     function imageKnight(){
-        let CharEnemigo = SeleccCharEnemigo()
-        alert("You chose Arthur! " + "Your opponent is: " + CharEnemigo)
+        SeleccCharEnemigo()
         nombreMascota.innerHTML = imgKnight.id
         playerWarrior = imgKnight.id
         extraerAtaques(playerWarrior)
@@ -138,8 +136,7 @@ function beginGame() {
 
     imgSpear.addEventListener("click", imageSpear)
     function imageSpear(){
-        let CharEnemigo = SeleccCharEnemigo()
-        alert("You chose Rose! " + "Your opponent is: " + CharEnemigo)
+        SeleccCharEnemigo()
         nombreMascota.innerHTML = imgSpear.id
         playerWarrior = imgSpear.id
         extraerAtaques(playerWarrior)
@@ -147,8 +144,7 @@ function beginGame() {
 
     botonArcher.addEventListener("click", Archer)
     function Archer() {
-        let CharEnemigo = SeleccCharEnemigo()
-        alert("You chose Juana! " + "Your opponent is: " + CharEnemigo)
+        SeleccCharEnemigo()
         nombreMascota.innerHTML = imgArcher.id
         playerWarrior = imgArcher.id
         extraerAtaques(playerWarrior)
@@ -156,8 +152,7 @@ function beginGame() {
     
     botonKnight.addEventListener("click", Knight)
     function Knight() {
-        let CharEnemigo = SeleccCharEnemigo()
-        alert("You chose Arthur! " + "Your opponent is: " + CharEnemigo)
+        SeleccCharEnemigo()
         nombreMascota.innerHTML = imgKnight.id
         playerWarrior = imgKnight.id
         extraerAtaques(playerWarrior)
@@ -165,8 +160,7 @@ function beginGame() {
     
     botonSpear.addEventListener("click", Spear)
     function Spear() {
-        let CharEnemigo = SeleccCharEnemigo()
-        alert("You chose Rose!" + " Your opponent is: " + CharEnemigo)
+        SeleccCharEnemigo()
         nombreMascota.innerHTML = imgSpear.id
         playerWarrior = imgSpear.id
         extraerAtaques(playerWarrior)
@@ -234,8 +228,7 @@ function SeleccCharEnemigo() {
     //sectionLives.style.display = "grid"
     //restartBttn.style.display = "none"
     sectionVerMapa.style.display = 'flex'
-    drawImage()
-    intervalo = setInterval(drawImage, 50)
+    beginMap()
 
     let randomChar = aleatorio(0, warriors.length -1)
      
@@ -372,6 +365,35 @@ function stopMove() {
     juana.veloX = 0
     juana.veloY = 0
 } 
+
+function keyPressed(event) {
+    switch (event.key) {
+        case 'ArrowUp':
+        case 'w':
+            moveUp()
+            break
+        case 'ArrowDown':
+        case 's':
+            moveDown()
+            break
+        case 'ArrowLeft':
+        case 'a':
+            moveLeft()
+            break
+        case 'ArrowRight':
+        case 'd':
+            moveRigth()
+            break;
+        default:
+            break;
+    }
+}
+
+function beginMap() {
+    intervalo = setInterval(drawImage, 50)
+    window.addEventListener('keydown', keyPressed)
+    window.addEventListener('keyup', stopMove)
+}
 
 function reiniciarJuego(){
     location.reload()
