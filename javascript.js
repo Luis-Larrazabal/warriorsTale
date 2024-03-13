@@ -58,6 +58,7 @@ let indexAtaqueEnemigo
 let playerVictories = 0
 let enemyVictories = 0
 let canva = mapa.getContext('2d')
+let intervalo
 
 class Warrior {
     constructor(name, image, lifes) {
@@ -71,6 +72,8 @@ class Warrior {
         this.alto = 100
         this.ImageMap = new Image()
         this.ImageMap.src = image
+        this.veloX = 0
+        this.veloY = 0
     }
 }
 
@@ -232,6 +235,7 @@ function SeleccCharEnemigo() {
     //restartBttn.style.display = "none"
     sectionVerMapa.style.display = 'flex'
     drawImage()
+    intervalo = setInterval(drawImage, 50)
 
     let randomChar = aleatorio(0, warriors.length -1)
      
@@ -335,6 +339,8 @@ function aleatorio(min,max) {
 }
 
 function drawImage() {
+    juana.x = juana.x + juana.veloX
+    juana.y = juana.y + juana.veloY
     canva.clearRect(0,0,mapa.width, mapa.height)
     canva.drawImage(
         juana.ImageMap,
@@ -346,24 +352,26 @@ function drawImage() {
 }
 
 function moveRigth() {
-    juana.x = juana.x + 10
-    drawImage()
+    juana.veloX = 10
 }
 
 function moveLeft() {
-    juana.x = juana.x - 10
-    drawImage()
+    juana.veloX = -10
 }
 
 function moveUp() {
-    juana.y = juana.y - 10
-    drawImage()
+    juana.veloY = - 10
 }
 
 function moveDown() {
-    juana.y = juana.y + 10
-    drawImage()
+    juana.veloY =  10
+
 }
+
+function stopMove() {
+    juana.veloX = 0
+    juana.veloY = 0
+} 
 
 function reiniciarJuego(){
     location.reload()
