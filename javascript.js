@@ -57,6 +57,7 @@ let indexAtaqueJugador
 let indexAtaqueEnemigo 
 let playerVictories = 0
 let enemyVictories = 0
+let canva = mapa.getContext('2d')
 
 class Warrior {
     constructor(name, image, lifes) {
@@ -224,6 +225,16 @@ function SeleccCharEnemigo() {
     //sectionLives.style.display = "grid"
     //restartBttn.style.display = "none"
     sectionVerMapa.style.display = 'flex'
+
+    let warriorImage = new Image()
+    warriorImage.src = juana.image
+    canva.drawImage(
+        warriorImage,
+        20,
+        40,
+        100,
+        100,
+    )
 
     let randomChar = aleatorio(0, warriors.length -1)
      

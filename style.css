@@ -197,6 +197,17 @@ body {
     margin-bottom: 0;
 }
 
+#ver-mapa {
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+
+#mapa {
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 5px solid black;
+}
+
 @media (max-width: 360px) {
     #header1 {
         align-items: center;
