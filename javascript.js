@@ -4,20 +4,14 @@ const sectionSeleccAtaque = document.getElementById("attack_selection")
 const sectionLives = document.getElementById("lives")
 const bttnsAttack = document.getElementById("attack_buttons")
 const resultadoCombate = document.getElementById("resultado-combate")
-const botonArcher = document.getElementById("btn-archer")
-const botonKnight = document.getElementById("btn-knight")
-const botonSpear = document.getElementById("btn-spear")
 const nombreMascota = document.getElementById("nombre_mascota_jugador")
 const imgArcher = document.getElementById("Juana")
 const imgKnight = document.getElementById("Arthur")
 const imgSpear = document.getElementById("Rose")
-
 const ContainerFoChars = document.getElementById("CharsContainer")
-const showAttacks = document.getElementById("buttons")
                 
                 // SeleccCharEnemigo 
 const header2 = document.getElementById("header2")
-const sectionCharButtons = document.getElementById("buttons")
 const sectionSeleccChar = document.getElementById("char_selection")
 const restartBttn = document.getElementById("boton-reiniciar")
 const characterEnemigo = document.getElementById("nombre_mascota_enemigo")
@@ -59,27 +53,47 @@ let playerVictories = 0
 let enemyVictories = 0
 let canva = mapa.getContext('2d')
 let intervalo
+let backgroundMap = new (Image)
+backgroundMap.src = './Resources/map.jpg'
+let warriorPlayed 
+
 
 class Warrior {
-    constructor(name, image, lifes) {
+    constructor(name, image, lifes, mapImage, x = 10, y = 10) {
         this.name = name
         this.image = image
         this.lifes = lifes
         this.attacks = []
-        this.x = 110
-        this.y = 20
-        this.ancho = 100
-        this.alto = 100
-        this.ImageMap = new Image()
-        this.ImageMap.src = image
+        this.x = x
+        this.y = y
+        this.ancho = 120
+        this.alto = 120
+        this.imageMap = new Image()
+        this.imageMap.src = mapImage
         this.veloX = 0
         this.veloY = 0
     }
-}
 
-let juana = new Warrior ('Juana', './Resources/archer.png', 5)
-let arthur = new Warrior ('Arthur', './Resources/knight.png', 5)
-let rose = new Warrior ('Rose', './Resources/spear.png', 5)
+    drawWarrior() {
+        canva.drawImage(
+            this.imageMap,
+            this.x,
+            this.y,
+            this.ancho,
+            this.alto,
+        )
+    }
+}
+                    // Player Characters
+let juana = new Warrior ('Juana', './Resources/archer.png', 5, './Resources/890-head.png')
+let arthur = new Warrior ('Arthur', './Resources/knight.png', 5, './Resources/123-head.png')
+let rose = new Warrior ('Rose', './Resources/spear.png', 5, './Resources/good3-head.png')
+
+                    // Enemy Characters
+let enemy1 = new Warrior ('Juana', './Resources/archer.png', 5, './Resources/archer2.png', aleatorio(30,500), aleatorio(0,500))
+let enemy2 = new Warrior ('Arthur', './Resources/knight.png', 5, './Resources/knight2.png', aleatorio(30,500), aleatorio(0,500))
+let enemy3 = new Warrior ('Rose', './Resources/spear.png', 5, './Resources/spear2.png', aleatorio(30,500), aleatorio(0,500))
+
 
 juana.attacks.push(
     { attackName: '🏹', id: 'fire_button' },
@@ -120,50 +134,27 @@ function beginGame() {
     
     imgArcher.addEventListener("click", imageArcher)
     function imageArcher(){
-        SeleccCharEnemigo()
         nombreMascota.innerHTML = imgArcher.id
         playerWarrior = imgArcher.id
         extraerAtaques(playerWarrior)
+        SeleccCharEnemigo()
+
     }
 
     imgKnight.addEventListener("click", imageKnight)
     function imageKnight(){
-        SeleccCharEnemigo()
         nombreMascota.innerHTML = imgKnight.id
         playerWarrior = imgKnight.id
         extraerAtaques(playerWarrior)
+        SeleccCharEnemigo()
     }
 
     imgSpear.addEventListener("click", imageSpear)
     function imageSpear(){
-        SeleccCharEnemigo()
         nombreMascota.innerHTML = imgSpear.id
         playerWarrior = imgSpear.id
         extraerAtaques(playerWarrior)
-    }
-
-    botonArcher.addEventListener("click", Archer)
-    function Archer() {
         SeleccCharEnemigo()
-        nombreMascota.innerHTML = imgArcher.id
-        playerWarrior = imgArcher.id
-        extraerAtaques(playerWarrior)
-    }
-    
-    botonKnight.addEventListener("click", Knight)
-    function Knight() {
-        SeleccCharEnemigo()
-        nombreMascota.innerHTML = imgKnight.id
-        playerWarrior = imgKnight.id
-        extraerAtaques(playerWarrior)
-    }
-    
-    botonSpear.addEventListener("click", Spear)
-    function Spear() {
-        SeleccCharEnemigo()
-        nombreMascota.innerHTML = imgSpear.id
-        playerWarrior = imgSpear.id
-        extraerAtaques(playerWarrior)
     }
 }
 
@@ -220,13 +211,7 @@ function attackSequence(){
 function SeleccCharEnemigo() {
 
     header2.style.display = "none"
-    sectionCharButtons.style.display = "none"
     sectionSeleccChar.style.display = "none"
-    //resultadoCombate.style.display = "flex"
-    //sectionSeleccAtaque.style.display = "flex"
-    //bttnsAttack.style.display = "flex"
-    //sectionLives.style.display = "grid"
-    //restartBttn.style.display = "none"
     sectionVerMapa.style.display = 'flex'
     beginMap()
 
@@ -249,7 +234,6 @@ function ataqueAleatorioEnemigo(){
     }else 
         ataqueEnemigo.push('SPEAR')
 
-    console.log(ataqueEnemigo)
     iniciarPelea()
 }
 
@@ -332,38 +316,49 @@ function aleatorio(min,max) {
 }
 
 function drawImage() {
-    juana.x = juana.x + juana.veloX
-    juana.y = juana.y + juana.veloY
+    warriorPlayed.x = warriorPlayed.x + warriorPlayed.veloX
+    warriorPlayed.y = warriorPlayed.y + warriorPlayed.veloY
     canva.clearRect(0,0,mapa.width, mapa.height)
     canva.drawImage(
-        juana.ImageMap,
-        juana.x,
-        juana.y,
-        juana.ancho,
-        juana.alto,
+        backgroundMap,
+        0,
+        0,
+        mapa.width,
+        mapa.height
     )
+    warriorPlayed.drawWarrior()
+    enemy1.drawWarrior()
+    enemy2.drawWarrior()
+    enemy3.drawWarrior()
+
+    if(warriorPlayed.veloX !== 0 || warriorPlayed.veloY !== 0) {
+        colisionCheck(enemy1)
+        colisionCheck(enemy2)
+        colisionCheck(enemy3)
+    }
 }
 
 function moveRigth() {
-    juana.veloX = 10
+    warriorPlayed.veloX = 10
 }
 
 function moveLeft() {
-    juana.veloX = -10
+    warriorPlayed.veloX = -10
 }
 
 function moveUp() {
-    juana.veloY = - 10
+    warriorPlayed.veloY = - 10
 }
 
 function moveDown() {
-    juana.veloY =  10
+    warriorPlayed.veloY =  10
 
 }
 
 function stopMove() {
-    juana.veloX = 0
-    juana.veloY = 0
+    
+    warriorPlayed.veloX = 0
+    warriorPlayed.veloY = 0
 } 
 
 function keyPressed(event) {
@@ -390,9 +385,49 @@ function keyPressed(event) {
 }
 
 function beginMap() {
+    mapa.width = 1200;
+    mapa.height = 700;
+    warriorPlayed = getWarrior(playerWarrior)
+    console.log(warriorPlayed)
     intervalo = setInterval(drawImage, 50)
     window.addEventListener('keydown', keyPressed)
     window.addEventListener('keyup', stopMove)
+}
+
+function getWarrior() {
+    for (let i = 0; i < warriors.length; i++) {
+        if (playerWarrior === warriors[i].name) {
+            return warriors[i]
+        }
+    }
+}
+
+function colisionCheck(enemigo) {
+
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+    const izquierdaEenmigo = enemigo.x
+
+    const arribaJugador = warriorPlayed.y
+    const abajoJugador = warriorPlayed.y + warriorPlayed.alto
+    const derechaJugador = warriorPlayed.x + warriorPlayed.ancho
+    const izquierdaJugador = warriorPlayed.x
+    
+    if(
+        abajoJugador < arribaEnemigo || 
+        arribaJugador > abajoEnemigo ||
+        derechaJugador < izquierdaEenmigo ||
+        izquierdaJugador > derechaEnemigo
+    ) {
+        return
+    }
+    resultadoCombate.style.display = "flex"
+    sectionSeleccAtaque.style.display = "flex"
+    bttnsAttack.style.display = "flex"
+    sectionLives.style.display = "grid"
+    restartBttn.style.display = "none"
+    sectionVerMapa.style.display = 'none'
 }
 
 function reiniciarJuego(){
