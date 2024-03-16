@@ -127,7 +127,7 @@ body {
     font-family: "IM Fell Double Pica", serif;
     font-size: 25px;
     border-color: black;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(5, 5, 5, 0.9);
     box-shadow: 3px 5px rgba(0, 0, 0, 0.6);
 }
 
@@ -202,6 +202,7 @@ body {
     align-content: center;
     align-items: center;
 }
+
 
 #mapa {
     background-color: rgba(0, 0, 0, 0.6);

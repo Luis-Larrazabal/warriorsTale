@@ -90,9 +90,9 @@ let arthur = new Warrior ('Arthur', './Resources/knight.png', 5, './Resources/12
 let rose = new Warrior ('Rose', './Resources/spear.png', 5, './Resources/good3-head.png')
 
                     // Enemy Characters
-let enemy1 = new Warrior ('Juana', './Resources/archer.png', 5, './Resources/archer2.png', aleatorio(30,500), aleatorio(0,500))
-let enemy2 = new Warrior ('Arthur', './Resources/knight.png', 5, './Resources/knight2.png', aleatorio(30,500), aleatorio(0,500))
-let enemy3 = new Warrior ('Rose', './Resources/spear.png', 5, './Resources/spear2.png', aleatorio(30,500), aleatorio(0,500))
+let enemy1 = new Warrior ('ENEMY1', './Resources/archer.png', 5, './Resources/archer2.png', aleatorio(30,500), aleatorio(0,500))
+let enemy2 = new Warrior ('ENEMY2', './Resources/knight.png', 5, './Resources/knight2.png', aleatorio(30,500), aleatorio(0,500))
+let enemy3 = new Warrior ('ENEMY3', './Resources/spear.png', 5, './Resources/spear2.png', aleatorio(30,500), aleatorio(0,500))
 
 
 juana.attacks.push(
@@ -100,7 +100,7 @@ juana.attacks.push(
     { attackName: '🏹', id: 'fire_button' },
     { attackName: '🏹', id: 'fire_button' },
     { attackName: '🗡️', id: 'water_button' },
-    { attackName: '🦯', id: 'earth_button' },
+    { attackName: '🪓', id: 'earth_button' },
 )
 
 arthur.attacks.push(
@@ -108,13 +108,37 @@ arthur.attacks.push(
     { attackName: '🗡️', id: 'water_button' },
     { attackName: '🗡️', id: 'water_button' },
     { attackName: '🏹', id: 'fire_button' },
-    { attackName: '🦯', id: 'earth_button' },
+    { attackName: '🪓', id: 'earth_button' },
 )
 
 rose.attacks.push(
-    { attackName: '🦯', id: 'earth_button' },
-    { attackName: '🦯', id: 'earth_button' },
-    { attackName: '🦯', id: 'earth_button' },
+    { attackName: '🪓', id: 'earth_button' },
+    { attackName: '🪓', id: 'earth_button' },
+    { attackName: '🪓', id: 'earth_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🗡️', id: 'water_button' },
+)
+
+enemy1.attacks.push(
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🪓', id: 'earth_button' },
+)
+
+enemy2.attacks.push(
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🪓', id: 'earth_button' },
+)
+
+enemy3.attacks.push(
+    { attackName: '🪓', id: 'earth_button' },
+    { attackName: '🪓', id: 'earth_button' },
+    { attackName: '🪓', id: 'earth_button' },
     { attackName: '🏹', id: 'fire_button' },
     { attackName: '🗡️', id: 'water_button' },
 )
@@ -137,7 +161,7 @@ function beginGame() {
         nombreMascota.innerHTML = imgArcher.id
         playerWarrior = imgArcher.id
         extraerAtaques(playerWarrior)
-        SeleccCharEnemigo()
+        beginMap()
 
     }
 
@@ -146,7 +170,7 @@ function beginGame() {
         nombreMascota.innerHTML = imgKnight.id
         playerWarrior = imgKnight.id
         extraerAtaques(playerWarrior)
-        SeleccCharEnemigo()
+        beginMap()
     }
 
     imgSpear.addEventListener("click", imageSpear)
@@ -154,7 +178,7 @@ function beginGame() {
         nombreMascota.innerHTML = imgSpear.id
         playerWarrior = imgSpear.id
         extraerAtaques(playerWarrior)
-        SeleccCharEnemigo()
+        beginMap()
     }
 }
 
@@ -198,7 +222,7 @@ function attackSequence(){
                 boton.style.background = '#000000'
                 boton.disabled = true
             } else {
-                playerAttack.push('SPEAR')
+                playerAttack.push('AXE')
                 console.log(playerAttack)
                 boton.style.background = 'rgba(0, 0, 0, 0.9)'
                 boton.disabled = true
@@ -208,23 +232,15 @@ function attackSequence(){
     })
 }
 
-function SeleccCharEnemigo() {
+function SeleccCharEnemigo(enemigo) {
 
-    header2.style.display = "none"
-    sectionSeleccChar.style.display = "none"
-    sectionVerMapa.style.display = 'flex'
-    beginMap()
-
-    let randomChar = aleatorio(0, warriors.length -1)
-     
-    characterEnemigo.innerHTML = warriors[randomChar].name
-
-    enemyAttacks = warriors[randomChar].attacks
-    
-    return characterEnemigo.innerHTML
+    characterEnemigo.innerHTML = enemigo.name
+    enemyAttacks = enemigo.attacks
 }
 
 function ataqueAleatorioEnemigo(){
+    
+    console.log('ataques enemigo', enemyAttacks)
     let ataqueAleatorio= aleatorio(0,enemyAttacks.length -1)
 
     if (ataqueAleatorio === 0 || ataqueAleatorio === 1) {
@@ -232,7 +248,7 @@ function ataqueAleatorioEnemigo(){
     } else if (ataqueAleatorio === 3 || ataqueAleatorio === 4){
         ataqueEnemigo.push('SWORD')
     }else 
-        ataqueEnemigo.push('SPEAR')
+        ataqueEnemigo.push('AXE')
 
     iniciarPelea()
 }
@@ -254,7 +270,7 @@ function combate(){
         if (playerAttack[index] === ataqueEnemigo[index]) {
             indexAtaques(index,index)
             crearMensaje("IT'S A TIE!")
-        } else if (playerAttack[index] === "BOW" && ataqueEnemigo[index] == "SPEAR") {
+        } else if (playerAttack[index] === "BOW" && ataqueEnemigo[index] == "AXE") {
             indexAtaques(index,index)
             crearMensaje("YOU WON!")
             playerVictories++
@@ -264,7 +280,7 @@ function combate(){
             crearMensaje("YOU WON!")
             playerVictories++
             spanVidasJugador.innerHTML = playerVictories
-        } else if (playerAttack[index] === "SPEAR" && ataqueEnemigo[index] === "SWORD") {
+        } else if (playerAttack[index] === "AXE" && ataqueEnemigo[index] === "SWORD") {
             indexAtaques(index,index)
             crearMensaje("YOU WON!")
             playerVictories++
@@ -385,6 +401,11 @@ function keyPressed(event) {
 }
 
 function beginMap() {
+    
+    header2.style.display = "none"
+    sectionSeleccChar.style.display = "none"
+    sectionVerMapa.style.display = 'flex'
+
     mapa.width = 1200;
     mapa.height = 700;
     warriorPlayed = getWarrior(playerWarrior)
@@ -422,12 +443,14 @@ function colisionCheck(enemigo) {
     ) {
         return
     }
+    stopMove()
     resultadoCombate.style.display = "flex"
     sectionSeleccAtaque.style.display = "flex"
     bttnsAttack.style.display = "flex"
     sectionLives.style.display = "grid"
     restartBttn.style.display = "none"
     sectionVerMapa.style.display = 'none'
+    SeleccCharEnemigo(enemigo)
 }
 
 function reiniciarJuego(){
