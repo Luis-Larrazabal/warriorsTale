@@ -155,7 +155,8 @@ function beginGame() {
     resultadoCombate.style.display = "none"
     sectionVerMapa.style.display = 'none'
 
-    
+    joinGame()
+
     imgArcher.addEventListener("click", imageArcher)
     function imageArcher(){
         nombreMascota.innerHTML = imgArcher.id
@@ -190,6 +191,18 @@ function extraerAtaques(playerWarrior) {
         }
     }
     mostrarAtaques(ataques)
+}
+
+function joinGame() {
+    fetch('http://localhost:8080/unirse')
+        .then(function (res) {
+            if (res.ok) {
+                res.text()
+                    .then(function (respuesta) {
+                        console.log(respuesta)
+                    })
+            }
+        })
 }
 
 function mostrarAtaques(attacks) {

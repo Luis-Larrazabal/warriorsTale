@@ -1,0 +1,14 @@
+{
+  "name": "warriorstale",
+  "version": "1.0.0",
+  "description": "html web game created in html, css, javascript vanilla",
+  "main": "javascript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis Larrazabal",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
