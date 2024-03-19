@@ -1,28 +1,28 @@
-const express = require('express')
+const express = require("express")
 
 const app = express()
 
-const players = []
+const jugadores = []
 
-class Player {
+class Jugador {
     constructor(id) {
         this.id = id
     }
 }
 
-app.get('/unirse', (req, res) => {
-
+app.get("/unirse", (req, res) => {
+    
     const id = `${Math.random()}`
 
-    const player = new Player(id)
+    const jugador = new Jugador(id)
 
-    players.push(player)
+    jugadores.push(jugador)
 
-    res.setHeader('Access-Control-Allow-Origin', '*')
-
+    res.setHeader('Access-Control-Allow-Origin', "*")
+    
     res.send(id)
 })
 
 app.listen(8080, () => {
-    console.log('functional server')
+    console.log('servidor funcionando')
 })

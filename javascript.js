@@ -1,5 +1,5 @@
 
-                // BeginGame 
+                            // BeginGame    
 const sectionSeleccAtaque = document.getElementById("attack_selection")
 const sectionLives = document.getElementById("lives")
 const bttnsAttack = document.getElementById("attack_buttons")
@@ -38,7 +38,7 @@ let botonFuego
 let botonAgua 
 let botonTierra 
 let botones = {}
-let warriorAttacks
+let warriorAttacks 
 let warriors = []
 let warriorsOption 
 let ataqueEnemigo = []
@@ -46,7 +46,6 @@ let vidasJugador = 3
 let vidasEnemigo = 3
 let playerWarrior 
 let playerAttack = []
-let enemyAttacks 
 let indexAtaqueJugador
 let indexAtaqueEnemigo 
 let playerVictories = 0
@@ -56,6 +55,9 @@ let intervalo
 let backgroundMap = new (Image)
 backgroundMap.src = './Resources/map.jpg'
 let warriorPlayed 
+let enemyAttacks 
+let ataqueAleatorio = []
+
 
 
 class Warrior {
@@ -85,14 +87,14 @@ class Warrior {
     }
 }
                     // Player Characters
-let juana = new Warrior ('Juana', './Resources/archer.png', 5, './Resources/890-head.png')
-let arthur = new Warrior ('Arthur', './Resources/knight.png', 5, './Resources/123-head.png')
-let rose = new Warrior ('Rose', './Resources/spear.png', 5, './Resources/good3-head.png')
+let juana = new Warrior ('Juana', './Resources/890.png', 5, './Resources/890-head.png')
+let arthur = new Warrior ('Arthur', './Resources/good3.png', 5, './Resources/good3-head.png')
+let rose = new Warrior ('Rose', './Resources/123.png', 5, './Resources/123-head.png')
 
                     // Enemy Characters
-let enemy1 = new Warrior ('ENEMY1', './Resources/archer.png', 5, './Resources/archer2.png', aleatorio(30,500), aleatorio(0,500))
-let enemy2 = new Warrior ('ENEMY2', './Resources/knight.png', 5, './Resources/knight2.png', aleatorio(30,500), aleatorio(0,500))
-let enemy3 = new Warrior ('ENEMY3', './Resources/spear.png', 5, './Resources/spear2.png', aleatorio(30,500), aleatorio(0,500))
+let enemy1 = new Warrior ('ENEMY1', './Resources/enemy1.png', 5, './Resources/enemy1-head.png', aleatorio(30,500), aleatorio(0,500))
+let enemy2 = new Warrior ('ENEMY2', './Resources/enemy2.png', 5, './Resources/enemy2-head.png', aleatorio(30,500), aleatorio(0,500))
+let enemy3 = new Warrior ('ENEMY3', './Resources/enemy3.png', 5, './Resources/enemy3-head.png', aleatorio(30,500), aleatorio(0,500))
 
 
 juana.attacks.push(
@@ -143,7 +145,7 @@ enemy3.attacks.push(
     { attackName: '🗡️', id: 'water_button' },
 )
 
-warriors.push(juana, arthur, rose)
+warriors.push(juana, arthur, rose, enemy1, enemy2, enemy3)
 
 window.addEventListener("load", beginGame)
 
@@ -155,32 +157,39 @@ function beginGame() {
     resultadoCombate.style.display = "none"
     sectionVerMapa.style.display = 'none'
 
-    joinGame()
+
+    unirseAlJuego() 
 
     imgArcher.addEventListener("click", imageArcher)
     function imageArcher(){
-        nombreMascota.innerHTML = imgArcher.id
-        playerWarrior = imgArcher.id
+        playerWarrior = imgArcher.id    
+        extraerImagenJugador()
         extraerAtaques(playerWarrior)
         beginMap()
-
     }
 
     imgKnight.addEventListener("click", imageKnight)
     function imageKnight(){
-        nombreMascota.innerHTML = imgKnight.id
         playerWarrior = imgKnight.id
+        extraerImagenJugador()
         extraerAtaques(playerWarrior)
         beginMap()
     }
 
     imgSpear.addEventListener("click", imageSpear)
-    function imageSpear(){
-        nombreMascota.innerHTML = imgSpear.id
+    function imageSpear() {
         playerWarrior = imgSpear.id
+        extraerImagenJugador()
         extraerAtaques(playerWarrior)
         beginMap()
     }
+}
+
+function unirseAlJuego() {
+    fecth('http://localhost:8080/unirse')
+        .then(function (res) {
+            console.log(res)
+        })
 }
 
 function extraerAtaques(playerWarrior) {
@@ -193,16 +202,15 @@ function extraerAtaques(playerWarrior) {
     mostrarAtaques(ataques)
 }
 
-function joinGame() {
-    fetch('http://localhost:8080/unirse')
-        .then(function (res) {
-            if (res.ok) {
-                res.text()
-                    .then(function (respuesta) {
-                        console.log(respuesta)
-                    })
-            }
-        })
+
+function extraerImagenJugador() {
+    let imagen
+    for (let i = 0; i < warriors.length; i++) {
+        if (playerWarrior === warriors[i].name) {
+            imagen = warriors[i].image
+        }   
+    }
+    nombreMascota.innerHTML = `<img src=${imagen} class = 'image-player'>`
 }
 
 function mostrarAtaques(attacks) {
@@ -226,17 +234,14 @@ function attackSequence(){
         boton.addEventListener('click', (e) => {
             if (e.target.textContent === '🏹') {
                 playerAttack.push('BOW')
-                console.log(playerAttack)
                 boton.style.background = '#000000'
                 boton.disabled = true
             } else if (e.target.textContent === '🗡️') {
                 playerAttack.push('SWORD')
-                console.log(playerAttack)
                 boton.style.background = '#000000'
                 boton.disabled = true
             } else {
                 playerAttack.push('AXE')
-                console.log(playerAttack)
                 boton.style.background = 'rgba(0, 0, 0, 0.9)'
                 boton.disabled = true
             }
@@ -245,23 +250,27 @@ function attackSequence(){
     })
 }
 
-function SeleccCharEnemigo(enemigo) {
+function SeleccCharEnemigo() {
 
-    characterEnemigo.innerHTML = enemigo.name
-    enemyAttacks = enemigo.attacks
+    let enemyWarrior = aleatorio(0, warriors.length -1)
+    characterEnemigo.innerHTML = `<img src =${warriors[enemyWarrior].image} class = 'image-enemy'>`
+    
+    enemyAttacks = warriors[enemyWarrior].attacks
 }
 
 function ataqueAleatorioEnemigo(){
     
-    console.log('ataques enemigo', enemyAttacks)
-    let ataqueAleatorio= aleatorio(0,enemyAttacks.length -1)
+    //console.log('ataques enemigo', enemyAttacks)
+    let ataqueAleatorio = aleatorio(0, enemyAttacks.length -1)
 
-    if (ataqueAleatorio === 0 || ataqueAleatorio === 1) {
+    if (enemyAttacks[ataqueAleatorio].attackName === '🏹') {
         ataqueEnemigo.push('BOW')
-    } else if (ataqueAleatorio === 3 || ataqueAleatorio === 4){
+    } else if (enemyAttacks[ataqueAleatorio].attackName === '🗡️'){
         ataqueEnemigo.push('SWORD')
-    }else 
+    }else {
         ataqueEnemigo.push('AXE')
+    }  
+    enemyAttacks.splice(ataqueAleatorio, 1)
 
     iniciarPelea()
 }
@@ -463,10 +472,9 @@ function colisionCheck(enemigo) {
     sectionLives.style.display = "grid"
     restartBttn.style.display = "none"
     sectionVerMapa.style.display = 'none'
-    SeleccCharEnemigo(enemigo)
+    SeleccCharEnemigo()
 }
 
 function reiniciarJuego(){
     location.reload()
 }
-

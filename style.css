@@ -182,7 +182,7 @@ body {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.6);
     border: 2px solid;
-    width: 180px;
+    width: 220px;
     margin-block: auto;
     border-radius: 10px;
 
@@ -197,12 +197,20 @@ body {
     margin-bottom: 0;
 }
 
+.image-enemy, .image-player {
+    height: 400px;
+    width: 200px;
+}
+
 #ver-mapa {
     flex-direction: column;
     align-content: center;
     align-items: center;
 }
 
+#mapa image {
+    opacity: 0;
+}
 
 #mapa {
     background-color: rgba(0, 0, 0, 0.6);
