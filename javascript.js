@@ -34,6 +34,7 @@ const mapa = document.getElementById('mapa')
 
                        // lets generales
 
+let jugadorId = null
 let botonFuego 
 let botonAgua 
 let botonTierra 
@@ -92,60 +93,41 @@ let arthur = new Warrior ('Arthur', './Resources/good3.png', 5, './Resources/goo
 let rose = new Warrior ('Rose', './Resources/123.png', 5, './Resources/123-head.png')
 
                     // Enemy Characters
-let enemy1 = new Warrior ('ENEMY1', './Resources/enemy1.png', 5, './Resources/enemy1-head.png', aleatorio(30,500), aleatorio(0,500))
-let enemy2 = new Warrior ('ENEMY2', './Resources/enemy2.png', 5, './Resources/enemy2-head.png', aleatorio(30,500), aleatorio(0,500))
-let enemy3 = new Warrior ('ENEMY3', './Resources/enemy3.png', 5, './Resources/enemy3-head.png', aleatorio(30,500), aleatorio(0,500))
 
 
-juana.attacks.push(
-    { attackName: '🏹', id: 'fire_button' },
-    { attackName: '🏹', id: 'fire_button' },
-    { attackName: '🏹', id: 'fire_button' },
-    { attackName: '🗡️', id: 'water_button' },
-    { attackName: '🪓', id: 'earth_button' },
-)
 
-arthur.attacks.push(
-    { attackName: '🗡️', id: 'water_button' },
-    { attackName: '🗡️', id: 'water_button' },
-    { attackName: '🗡️', id: 'water_button' },
+const juanaEnemy1 = [
     { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🗡️', id: 'water_button' },
     { attackName: '🪓', id: 'earth_button' },
-)
+]
 
-rose.attacks.push(
-    { attackName: '🪓', id: 'earth_button' },
-    { attackName: '🪓', id: 'earth_button' },
-    { attackName: '🪓', id: 'earth_button' },
-    { attackName: '🏹', id: 'fire_button' },
+const arthurEnemy2 = [
     { attackName: '🗡️', id: 'water_button' },
-)
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🗡️', id: 'water_button' },
+    { attackName: '🏹', id: 'fire_button' },
+    { attackName: '🪓', id: 'earth_button' },
 
-enemy1.attacks.push(
-    { attackName: '🏹', id: 'fire_button' },
-    { attackName: '🏹', id: 'fire_button' },
-    { attackName: '🏹', id: 'fire_button' },
-    { attackName: '🗡️', id: 'water_button' },
-    { attackName: '🪓', id: 'earth_button' },
-)
+]
 
-enemy2.attacks.push(
-    { attackName: '🗡️', id: 'water_button' },
-    { attackName: '🗡️', id: 'water_button' },
-    { attackName: '🗡️', id: 'water_button' },
-    { attackName: '🏹', id: 'fire_button' },
-    { attackName: '🪓', id: 'earth_button' },
-)
-
-enemy3.attacks.push(
+const roseEnemy3 = [
     { attackName: '🪓', id: 'earth_button' },
     { attackName: '🪓', id: 'earth_button' },
     { attackName: '🪓', id: 'earth_button' },
     { attackName: '🏹', id: 'fire_button' },
     { attackName: '🗡️', id: 'water_button' },
-)
+]
 
-warriors.push(juana, arthur, rose, enemy1, enemy2, enemy3)
+juana.attacks.push(...juanaEnemy1)
+
+arthur.attacks.push(...arthurEnemy2)
+
+rose.attacks.push(...roseEnemy3)
+
+warriors.push(juana, arthur, rose)
 
 window.addEventListener("load", beginGame)
 
@@ -186,9 +168,15 @@ function beginGame() {
 }
 
 function unirseAlJuego() {
-    fecth('http://localhost:8080/unirse')
+    fetch("http://localhost:8080/unirse")
         .then(function (res) {
-            console.log(res)
+            if (res.ok) {
+                res.text()
+                    .then(function (respuesta) {
+                        console.log(respuesta)
+                        jugadorId = respuesta
+                    })
+            }
         })
 }
 
@@ -199,8 +187,22 @@ function extraerAtaques(playerWarrior) {
             ataques = warriors[i].attacks
         }
     }
+    selectWarrior(playerWarrior)
     mostrarAtaques(ataques)
 }
+
+function selectWarrior(playerWarrior) {
+    fetch(`http://localhost:8080/warrior/${jugadorId}`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            warrior: playerWarrior
+        })
+    })
+}
+
 
 
 function extraerImagenJugador() {
@@ -353,6 +355,44 @@ function aleatorio(min,max) {
     return Math.floor(Math.random()* (max - min +1) + min)
 }
 
+function enviarPosicion(x,y) {
+    fetch(`http://localhost:8080/warrior/${jugadorId}/position`, {
+        method: "post",
+        headers: {
+        "Content-Type": "application/json"},
+        body: JSON.stringify ({
+            x,
+            y
+        })
+    })
+     .then(function (res)  {
+        if (res.ok) {
+            res.json()
+                .then(function ({enemigos}) {
+                    console.log(enemigos) 
+                    enemigos.forEach(function (enemigo) {
+                        let enemyWarrior = new Warrior ('Juana', './Resources/890.png', 5, './Resources/890-head.png', 30, 40) 
+                        let enemyName = enemigo.warrior
+                        if (enemyName === "Juana") {
+                            enemyWarrior = new Warrior ('Juana', './Resources/890.png', 5, './Resources/890-head.png', 30, 40)
+                        } else if (enemyName === "Arthur") {
+                            enemyWarrior = new Warrior ('Arthur', './Resources/good3.png', 5, './Resources/good3-head.png', 50, 60)
+                        } else if (enemyName === "Rose") {
+                            enemyWarrior = new Warrior ('Rose', './Resources/123.png', 5, './Resources/123-head.png', 80, 90)
+                        }
+                        
+                        console.log(enemyWarrior)
+                        enemyWarrior.x = enemigo.x
+                        enemyWarrior.y = enemigo.y
+
+                        enemyWarrior.drawWarrior
+                    })
+                })
+        }
+    })
+}
+
+
 function drawImage() {
     warriorPlayed.x = warriorPlayed.x + warriorPlayed.veloX
     warriorPlayed.y = warriorPlayed.y + warriorPlayed.veloY
@@ -365,16 +405,14 @@ function drawImage() {
         mapa.height
     )
     warriorPlayed.drawWarrior()
-    enemy1.drawWarrior()
-    enemy2.drawWarrior()
-    enemy3.drawWarrior()
+
+    enviarPosicion(warriorPlayed.x, warriorPlayed.y)
 
     if(warriorPlayed.veloX !== 0 || warriorPlayed.veloY !== 0) {
-        colisionCheck(enemy1)
-        colisionCheck(enemy2)
-        colisionCheck(enemy3)
+        colisionCheck(enemyWarrior)
     }
 }
+
 
 function moveRigth() {
     warriorPlayed.veloX = 10
@@ -431,7 +469,6 @@ function beginMap() {
     mapa.width = 1200;
     mapa.height = 700;
     warriorPlayed = getWarrior(playerWarrior)
-    console.log(warriorPlayed)
     intervalo = setInterval(drawImage, 50)
     window.addEventListener('keydown', keyPressed)
     window.addEventListener('keyup', stopMove)
@@ -472,7 +509,7 @@ function colisionCheck(enemigo) {
     sectionLives.style.display = "grid"
     restartBttn.style.display = "none"
     sectionVerMapa.style.display = 'none'
-    SeleccCharEnemigo()
+    SeleccCharEnemigo(enemigo)
 }
 
 function reiniciarJuego(){
