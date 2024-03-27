@@ -182,7 +182,7 @@ body {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.6);
     border: 2px solid;
-    width: 220px;
+    width: 260px;
     margin-block: auto;
     border-radius: 10px;
 
@@ -199,7 +199,7 @@ body {
 
 .image-enemy, .image-player {
     height: 400px;
-    width: 200px;
+    width: 250px;
 }
 
 #ver-mapa {
@@ -215,6 +215,24 @@ body {
 #mapa {
     background-color: rgba(0, 0, 0, 0.6);
     border: 5px solid black;
+}
+
+.side-buttons {
+    display: flex;
+    gap: 150px;
+    margin-top: 20px;
+    margin-bottom: 20px;;
+}
+
+#up-button {
+    margin-top: 80px
+}
+
+#arrow-up, #arrow-down, #arrow-right, #arrow-left {
+    font-size: 80px;
+    background-color: transparent;
+    border: transparent;
+    user-select: none;
 }
 
 @media (max-width: 360px) {

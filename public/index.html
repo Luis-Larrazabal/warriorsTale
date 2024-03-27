@@ -35,8 +35,39 @@
 
         <section id='ver-mapa'> 
             
-            <h1 class="titulo">Recorre el mapa</h1>
+            <h1 class="titulo">Explore around the kingdom map and find your enemy!</h1>
             <canvas id="mapa"></canvas>
+            <div id = "up-button">
+                <button id = "arrow-up"
+                    ontouchend="stopMove"  
+                    onmouseup="stopMove()" 
+                    onmousedown="moveUp()"
+                    ontouchstart="moveUp()" 
+                >⬆️</button>
+            </div>
+            <div class ="side-buttons">
+                <button id = "arrow-left"
+                    onmouseup="stopMove()"
+                    ontouchend="stopMove()" 
+                    onmousedown="moveLeft()"
+                    ontouchstart="moveLeft()"
+                >⬅️</button>
+                <button id = "arrow-right"
+                    onmouseup="stopMove()"
+                    ontouchend="stopMove()" 
+                    onmousedown="moveRigth()"
+                    ontouchstart="moveRigth()"
+                >➡️</button>
+            </div>
+            <div>
+                <button id = "arrow-down"
+                    onmouseup="stopMove()"
+                    ontouchend="stopMove()" 
+                    onmousedown="moveDown()"
+                    ontouchstart="moveDown()"
+                >⬇️</button>
+            </div>
+        </section>
 
         </section>
 

@@ -58,6 +58,9 @@ backgroundMap.src = './Resources/map.jpg'
 let warriorPlayed 
 let enemyAttacks 
 let ataqueAleatorio = []
+let enemyWarriors = []
+let enemyWarrior = null
+let enemigoId = null
 
 
 
@@ -67,10 +70,10 @@ class Warrior {
         this.image = image
         this.lifes = lifes
         this.attacks = []
-        this.x = x
-        this.y = y
         this.ancho = 120
         this.alto = 120
+        this.x = x
+        this.y = y
         this.imageMap = new Image()
         this.imageMap.src = mapImage
         this.veloX = 0
@@ -88,9 +91,9 @@ class Warrior {
     }
 }
                     // Player Characters
-let juana = new Warrior ('Juana', './Resources/890.png', 5, './Resources/890-head.png')
-let arthur = new Warrior ('Arthur', './Resources/good3.png', 5, './Resources/good3-head.png')
-let rose = new Warrior ('Rose', './Resources/123.png', 5, './Resources/123-head.png')
+let juana = new Warrior ('Juana', './Resources/890.png', 5, './Resources/890-head.png', 700, 400)
+let arthur = new Warrior ('Arthur', './Resources/good3.png', 5, './Resources/good3-head.png', 50,60)
+let rose = new Warrior ('Rose', './Resources/123.png', 5, './Resources/123-head.png', 200, 300)
 
                     // Enemy Characters
 
@@ -144,36 +147,38 @@ function beginGame() {
 
     imgArcher.addEventListener("click", imageArcher)
     function imageArcher(){
-        playerWarrior = imgArcher.id    
+        playerWarrior = imgArcher.id
+        beginMap()    
         extraerImagenJugador()
         extraerAtaques(playerWarrior)
-        beginMap()
     }
 
     imgKnight.addEventListener("click", imageKnight)
     function imageKnight(){
         playerWarrior = imgKnight.id
+        beginMap()
         extraerImagenJugador()
         extraerAtaques(playerWarrior)
-        beginMap()
+        
     }
 
     imgSpear.addEventListener("click", imageSpear)
     function imageSpear() {
         playerWarrior = imgSpear.id
+        beginMap()
         extraerImagenJugador()
         extraerAtaques(playerWarrior)
-        beginMap()
+        
     }
 }
 
 function unirseAlJuego() {
-    fetch("http://localhost:8080/unirse")
+    fetch("http://192.168.1.89:8080/unirse")
         .then(function (res) {
             if (res.ok) {
                 res.text()
                     .then(function (respuesta) {
-                        console.log(respuesta)
+                        console.log("unirseAlJuego() respuesta ",respuesta)
                         jugadorId = respuesta
                     })
             }
@@ -192,7 +197,7 @@ function extraerAtaques(playerWarrior) {
 }
 
 function selectWarrior(playerWarrior) {
-    fetch(`http://localhost:8080/warrior/${jugadorId}`, {
+    fetch(`http://192.168.1.89:8080/warrior/${jugadorId}`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -202,7 +207,11 @@ function selectWarrior(playerWarrior) {
         })
     })
 }
-
+///HASTA AQUI TODO BIEN
+///HASTA AQUI TODO BIEN
+///HASTA AQUI TODO BIEN
+///HASTA AQUI TODO BIEN
+///HASTA AQUI TODO BIEN
 
 
 function extraerImagenJugador() {
@@ -247,41 +256,52 @@ function attackSequence(){
                 boton.style.background = 'rgba(0, 0, 0, 0.9)'
                 boton.disabled = true
             }
-            ataqueAleatorioEnemigo()
+            
+            if (playerAttack.length === 5) {
+                sendAttacks()
+            }
         })
     })
 }
 
+
+function sendAttacks() {
+    fetch(`http://192.168.1.89:8080/warrior/${jugadorId}/ataques`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json" 
+        },
+        body: JSON.stringify ({
+            ataques: playerAttack
+        })
+    })
+
+    intervalo = setInterval(getAttacks, 50)
+}
+
+function getAttacks() {
+    fetch(`http://192.168.1.89:8080/warrior/${enemigoId}/ataques`)
+        .then(function (res) {
+            if (res.ok) {
+                res.json()
+                .then(function ({ ataques }) {
+                    if (ataques.length === 5) {
+                        ataqueEnemigo = ataques
+                        combate()
+                    }
+                })
+            }
+        })
+}
+
 function SeleccCharEnemigo() {
 
-    let enemyWarrior = aleatorio(0, warriors.length -1)
-    characterEnemigo.innerHTML = `<img src =${warriors[enemyWarrior].image} class = 'image-enemy'>`
+    characterEnemigo.innerHTML = `<img src =${enemyWarrior.image} class = 'image-enemy'>`
     
-    enemyAttacks = warriors[enemyWarrior].attacks
+    enemyAttacks = enemyWarrior.attacks
 }
 
-function ataqueAleatorioEnemigo(){
-    
-    //console.log('ataques enemigo', enemyAttacks)
-    let ataqueAleatorio = aleatorio(0, enemyAttacks.length -1)
 
-    if (enemyAttacks[ataqueAleatorio].attackName === '🏹') {
-        ataqueEnemigo.push('BOW')
-    } else if (enemyAttacks[ataqueAleatorio].attackName === '🗡️'){
-        ataqueEnemigo.push('SWORD')
-    }else {
-        ataqueEnemigo.push('AXE')
-    }  
-    enemyAttacks.splice(ataqueAleatorio, 1)
-
-    iniciarPelea()
-}
-
-function iniciarPelea() {
-    if (playerAttack.length === 5) {
-        combate()
-    }
-}
 
 function indexAtaques(jugador,enemigo) {
     indexAtaqueJugador = playerAttack[jugador]
@@ -289,6 +309,7 @@ function indexAtaques(jugador,enemigo) {
 }
 
 function combate(){
+    clearInterval(intervalo)
 
     for (let index = 0; index < playerAttack.length; index++) {
         if (playerAttack[index] === ataqueEnemigo[index]) {
@@ -315,7 +336,7 @@ function combate(){
             enemyVictories++
             spanVidasEnemigo.innerHTML = enemyVictories
         }
-        checkVictories()
+        
     }
 }
 
@@ -356,7 +377,7 @@ function aleatorio(min,max) {
 }
 
 function enviarPosicion(x,y) {
-    fetch(`http://localhost:8080/warrior/${jugadorId}/position`, {
+    fetch(`http://192.168.1.89:8080/warrior/${jugadorId}/position`, {
         method: "post",
         headers: {
         "Content-Type": "application/json"},
@@ -366,26 +387,27 @@ function enviarPosicion(x,y) {
         })
     })
      .then(function (res)  {
+        console.log("enviarPosicion respuesta ", res)
         if (res.ok) {
             res.json()
-                .then(function ({enemigos}) {
-                    console.log(enemigos) 
-                    enemigos.forEach(function (enemigo) {
-                        let enemyWarrior = new Warrior ('Juana', './Resources/890.png', 5, './Resources/890-head.png', 30, 40) 
-                        let enemyName = enemigo.warrior
-                        if (enemyName === "Juana") {
-                            enemyWarrior = new Warrior ('Juana', './Resources/890.png', 5, './Resources/890-head.png', 30, 40)
-                        } else if (enemyName === "Arthur") {
-                            enemyWarrior = new Warrior ('Arthur', './Resources/good3.png', 5, './Resources/good3-head.png', 50, 60)
-                        } else if (enemyName === "Rose") {
-                            enemyWarrior = new Warrior ('Rose', './Resources/123.png', 5, './Resources/123-head.png', 80, 90)
-                        }
+                .then(function ({enemigos}) { 
+                    enemyWarriors = enemigos.map(function (enemigo) {
                         
-                        console.log(enemyWarrior)
+                        let enemyName = enemigo.warrior.name
+                        console.log("nombre del enemigo ",enemyName)
+                        if (enemyName === "Juana") {
+                            enemyWarrior = new Warrior ('Juana', './Resources/890.png', 5, './Resources/890-head.png', enemigo.id)
+                        } else if (enemyName === "Arthur") {
+                            enemyWarrior = new Warrior ('Arthur', './Resources/good3.png', 5, './Resources/good3-head.png', enemigo.id)
+                        } else if (enemyName === "Rose") {
+                            enemyWarrior = new Warrior ('Rose', './Resources/123.png', 5, './Resources/123-head.png', enemigo.id)
+                        }
+
                         enemyWarrior.x = enemigo.x
                         enemyWarrior.y = enemigo.y
+                        enemigoId = enemigo.id
 
-                        enemyWarrior.drawWarrior
+                        return enemyWarrior
                     })
                 })
         }
@@ -408,9 +430,10 @@ function drawImage() {
 
     enviarPosicion(warriorPlayed.x, warriorPlayed.y)
 
-    if(warriorPlayed.veloX !== 0 || warriorPlayed.veloY !== 0) {
-        colisionCheck(enemyWarrior)
-    }
+    enemyWarriors.forEach(function (warrior) {
+        warrior.drawWarrior()
+        colisionCheck(warrior)
+    })
 }
 
 
@@ -502,14 +525,18 @@ function colisionCheck(enemigo) {
     ) {
         return
     }
-    stopMove()
+    
     resultadoCombate.style.display = "flex"
     sectionSeleccAtaque.style.display = "flex"
     bttnsAttack.style.display = "flex"
     sectionLives.style.display = "grid"
     restartBttn.style.display = "none"
     sectionVerMapa.style.display = 'none'
+    stopMove()
+    clearInterval(intervalo)
+    enemigoId = enemigo.id
     SeleccCharEnemigo(enemigo)
+    
 }
 
 function reiniciarJuego(){
